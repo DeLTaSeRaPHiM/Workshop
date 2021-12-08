@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workshop.controllers.MainController">
+  <tabs>
+    <Tab text="Работники">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: lightgray;">
+               <children>
+                  <TableView fx:id="workersTable" layoutX="10.0" layoutY="14.0" prefHeight="230.0" prefWidth="580.0" AnchorPane.bottomAnchor="127.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                    <columns>
+                      <TableColumn fx:id="wIDTab" editable="false" prefWidth="61.0" resizable="false" text="ID" />
+                      <TableColumn fx:id="wSurnameTab" prefWidth="120.0" text="Фамилия" />
+                        <TableColumn fx:id="wNameTab" prefWidth="138.0" text="Имя" />
+                        <TableColumn fx:id="wPatronymicTab" prefWidth="156.0" text="Отчество" />
+                        <TableColumn fx:id="workshopName" prefWidth="104.0" text="Цех" />
+                    </columns>
+                  </TableView>
+                  <Button fx:id="workerAddBtn" layoutX="106.0" layoutY="273.0" mnemonicParsing="false" onAction="#addWorker" text="Добавить" AnchorPane.leftAnchor="106.0" />
+                  <Button fx:id="workerUpdateBtn" layoutX="265.0" layoutY="273.0" mnemonicParsing="false" onAction="#updateWorker" text="Изменить" AnchorPane.leftAnchor="265.0" AnchorPane.rightAnchor="265.0" />
+                  <Button fx:id="workerDeleteBtn" layoutX="430.0" layoutY="273.0" mnemonicParsing="false" onAction="#deleteWorker" text="Удалить" AnchorPane.rightAnchor="110.0" />
+                  <TextField fx:id="wNameField" layoutX="171.0" layoutY="313.0" prefHeight="25.0" prefWidth="120.0" promptText="Имя" AnchorPane.leftAnchor="165.0" />
+                  <TextField fx:id="wSurnameField" layoutX="14.0" layoutY="313.0" prefHeight="25.0" prefWidth="120.0" promptText="Фамилия" AnchorPane.leftAnchor="20.0" />
+                  <TextField fx:id="wPatronymicField" layoutX="330.0" layoutY="313.0" prefHeight="25.0" prefWidth="120.0" promptText="Отчество" AnchorPane.rightAnchor="165.0" />
+                  <TextField fx:id="workshopNameField" layoutX="460.0" layoutY="313.0" prefHeight="25.0" prefWidth="120.0" promptText="Номер цеха" AnchorPane.rightAnchor="20.0" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+      <Tab text="Продукция">
+         <content>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: lightgray;">
+               <children>
+                  <TableView fx:id="productsTable" layoutX="14.0" layoutY="14.0" prefHeight="206.0" prefWidth="580.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                    <columns>
+                      <TableColumn fx:id="weekTab" prefWidth="52.0" resizable="false" text="Неделя" />
+                      <TableColumn fx:id="pProductTab" prefWidth="98.0" text="Название" />
+                        <TableColumn fx:id="pPriceTab" prefWidth="72.0" text="Цена" />
+                        <TableColumn fx:id="onMonTab" prefWidth="88.0" text="Кол-во за пн." />
+                        <TableColumn fx:id="onTueTab" prefWidth="91.0" text="Кол-во за вт." />
+                        <TableColumn fx:id="onWedTab" prefWidth="87.0" text="Кол-во за ср." />
+                        <TableColumn fx:id="onThuTab" prefWidth="91.0" text="Кол-во за чт." />
+                        <TableColumn fx:id="onFriTab" prefWidth="60.0" text="Кол-во за пт." />
+                        <TableColumn fx:id="onSatTab" prefWidth="94.0" text="Кол-во за сб." />
+                        <TableColumn fx:id="onSunTab" prefWidth="90.0" text="Кол-во за вск." />
+                    </columns>
+                  </TableView>
+                  <TextField fx:id="productNameField" layoutX="25.0" layoutY="249.0" prefHeight="25.0" prefWidth="120.0" promptText="Название" AnchorPane.leftAnchor="25.0" />
+                  <TextField fx:id="productPriceField" layoutX="25.0" layoutY="286.0" prefHeight="25.0" prefWidth="120.0" promptText="Цена" AnchorPane.leftAnchor="25.0" />
+                  <TextField fx:id="onMonField" layoutX="25.0" layoutY="323.0" prefHeight="25.0" prefWidth="120.0" promptText="Кол-во за пн." AnchorPane.leftAnchor="25.0" />
+                  <TextField fx:id="onTueField" layoutX="170.0" layoutY="249.0" prefHeight="25.0" prefWidth="120.0" promptText="Кол-во за вт." AnchorPane.leftAnchor="180.0" />
+                  <TextField fx:id="onWedField" layoutX="170.0" layoutY="286.0" prefHeight="25.0" prefWidth="120.0" promptText="Кол-во за ср." AnchorPane.leftAnchor="180.0" />
+                  <TextField fx:id="onThuField" layoutX="170.0" layoutY="323.0" prefHeight="25.0" prefWidth="120.0" promptText="Кол-во за чт." AnchorPane.leftAnchor="180.0" />
+                  <TextField fx:id="onFriField" layoutX="320.0" layoutY="249.0" prefHeight="25.0" prefWidth="120.0" promptText="Кол-во за пт." AnchorPane.rightAnchor="150.0" />
+                  <TextField fx:id="onSatField" layoutX="320.0" layoutY="286.0" prefHeight="25.0" prefWidth="120.0" promptText="Кол-во за сб." AnchorPane.rightAnchor="150.0" />
+                  <TextField fx:id="onSunField" layoutX="320.0" layoutY="323.0" prefHeight="25.0" prefWidth="120.0" promptText="Кол-во за вск." AnchorPane.rightAnchor="150.0" />
+                  <Button fx:id="addProductBtn" layoutX="495.0" layoutY="249.0" mnemonicParsing="false" onAction="#addProduct" prefHeight="25.0" prefWidth="80.0" text="Добавить" AnchorPane.rightAnchor="25.0" />
+                  <Button fx:id="updateProductBtn" layoutX="495.0" layoutY="286.0" mnemonicParsing="false" onAction="#updateProduct" prefHeight="25.0" prefWidth="80.0" text="Изменить" AnchorPane.rightAnchor="25.0" />
+                  <Button fx:id="deleteProductBtn" layoutX="495.0" layoutY="323.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="25.0" prefWidth="80.0" text="Удалить" AnchorPane.rightAnchor="25.0" />
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+  </tabs>
+</TabPane>
