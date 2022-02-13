@@ -103,6 +103,18 @@ public class MainController {
     @FXML
     private TextField workshopNameField;
 
+    @FXML
+    private TextField workerSearchField;
+
+    @FXML
+    private TextField productSearchField;
+
+    @FXML
+    private Button findID;
+
+    @FXML
+    private Button findName;
+
     private ObservableList<Workers> workersDB = FXCollections.observableArrayList();
     private ObservableList<Products> productsDB = FXCollections.observableArrayList();
 
@@ -224,6 +236,51 @@ public class MainController {
         }
         updateProductsTable();
     }
+
+    @FXML
+    void findID(ActionEvent event) {
+        String search = workerSearchField.getText();
+
+        if (search.equals("")) {
+            updateWorkersTable();
+        } else {
+            wIDTab.setCellValueFactory(new PropertyValueFactory<>("worker_ID"));
+            wSurnameTab.setCellValueFactory(new PropertyValueFactory<>("surname"));
+            wNameTab.setCellValueFactory(new PropertyValueFactory<>("name"));
+            wPatronymicTab.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
+            workshopName.setCellValueFactory(new PropertyValueFactory<>("workshopName"));
+
+            workersDB = databaseHandler.findWorker(search);
+            workersTable.setItems(workersDB);
+        }
+
+    }
+
+    @FXML
+    void findName(ActionEvent event) {
+        String search = productSearchField.getText();
+
+        if (search.equals("")) {
+            updateProductsTable();
+        } else {
+            weekTab.setCellValueFactory(new PropertyValueFactory<>("product_ID"));
+            pPriceTab.setCellValueFactory(new PropertyValueFactory<>("price"));
+            pProductTab.setCellValueFactory(new PropertyValueFactory<>("name"));
+            onMonTab.setCellValueFactory(new PropertyValueFactory<>("amountOnMonday"));
+            onTueTab.setCellValueFactory(new PropertyValueFactory<>("amountOnTuesday"));
+            onWedTab.setCellValueFactory(new PropertyValueFactory<>("amountOnWednesday"));
+            onThuTab.setCellValueFactory(new PropertyValueFactory<>("amountOnThursday"));
+            onFriTab.setCellValueFactory(new PropertyValueFactory<>("amountOnFriday"));
+            onSatTab.setCellValueFactory(new PropertyValueFactory<>("amountOnSaturday"));
+            onSunTab.setCellValueFactory(new PropertyValueFactory<>("amountOnSunday"));
+
+            productsDB = databaseHandler.findProduct(search);
+            productsTable.setItems(productsDB);
+        }
+
+    }
+
+
 
     public void updateWorkersTable() {
         wIDTab.setCellValueFactory(new PropertyValueFactory<>("worker_ID"));

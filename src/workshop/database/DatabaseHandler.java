@@ -54,7 +54,9 @@ public class DatabaseHandler extends Configs {
             ResultSet result = prSt.executeQuery();
             ObservableList<Products> list = FXCollections.observableArrayList();
             while (result.next()) {
-                Products products = new Products("", "", "", "", "", "", "", "", "", "");
+                Products products = new Products("", "", "", "",
+                        "", "", "", "",
+                        "", "");
 
                 products.setProduct_ID(result.getString(PRODUCT_ID));
                 products.setName(result.getString(PRODUCT_NAME));
@@ -195,5 +197,61 @@ public class DatabaseHandler extends Configs {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public ObservableList<Workers> findWorker(String id) {
+        try {
+            PreparedStatement prSt = getDbConnection().prepareStatement("SELECT * FROM " + WORKERS_TABLE + " WHERE " + WORKER_ID + "=?");
+            prSt.setInt(1, (Integer.parseInt(id)));
+
+            ResultSet result = prSt.executeQuery();
+            ObservableList<Workers> list = FXCollections.observableArrayList();
+            while (result.next()) { //Получение данных из столбцов базы данных
+                Workers workers = new Workers();
+
+                workers.setWorker_ID(result.getString(WORKER_ID));
+                workers.setSurname(result.getString(WORKER_SURNAME));
+                workers.setName(result.getString(WORKER_NAME));
+                workers.setPatronymic(result.getString(WORKER_PATRONYMIC));
+                workers.setWorkshopName(result.getString(WORKSHOP_NAME));
+                list.add(workers);
+            }
+            return list;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ObservableList<Products> findProduct(String id) {
+        try {
+            PreparedStatement prSt = getDbConnection().prepareStatement("SELECT * FROM " + PRODUCTS_TABLE + " WHERE " + PRODUCT_ID + "=?");
+            prSt.setInt(1, (Integer.parseInt(id)));
+
+            ResultSet result = prSt.executeQuery();
+            ObservableList<Products> list = FXCollections.observableArrayList();
+            while (result.next()) {
+                Products products = new Products("", "", "", "",
+                        "", "", "", "",
+                        "", "");
+
+                products.setProduct_ID(result.getString(PRODUCT_ID));
+                products.setName(result.getString(PRODUCT_NAME));
+                products.setPrice(result.getString(PRODUCT_PRICE));
+                products.setAmountOnMonday(result.getString(P_AMOUNT_ON_MON));
+                products.setAmountOnTuesday(result.getString(P_AMOUNT_ON_TUE));
+                products.setAmountOnWednesday(result.getString(P_AMOUNT_ON_WED));
+                products.setAmountOnThursday(result.getString(P_AMOUNT_ON_THU));
+                products.setAmountOnFriday(result.getString(P_AMOUNT_ON_FRI));
+                products.setAmountOnSaturday(result.getString(P_AMOUNT_ON_SAT));
+                products.setAmountOnSunday(result.getString(P_AMOUNT_ON_SUN));
+
+                list.add(products);
+            }
+            return list;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
