@@ -20,6 +20,9 @@ public class MainController {
     private TableView<Products> productsTable;
 
     @FXML
+    private TableView<Users> usersTable;
+
+    @FXML
     private TableColumn<Products, String> weekTab;
 
     @FXML
@@ -115,8 +118,46 @@ public class MainController {
     @FXML
     private Button findName;
 
+    @FXML
+    private Button userAddBtn;
+
+    @FXML
+    private Button userUpdateBtn;
+
+    @FXML
+    private Button userDeleteBtn;
+
+    @FXML
+    private TextField userSearchField;
+
+    @FXML
+    private TextField userIdField;
+
+    @FXML
+    private TextField userLoginField;
+
+    @FXML
+    private TextField userPasswordField;
+
+    @FXML
+    private TextField userAccessKeyField;
+
+    @FXML
+    private TableColumn<Users, String> userIdTab;
+
+    @FXML
+    private TableColumn<Users, String> userLoginTab;
+
+    @FXML
+    private TableColumn<Users, String> userPasswordTab;
+
+    @FXML
+    private TableColumn<Users, String> userAccessKeyTab;
+
+
     private ObservableList<Workers> workersDB = FXCollections.observableArrayList();
     private ObservableList<Products> productsDB = FXCollections.observableArrayList();
+    private ObservableList<Users> usersDB = FXCollections.observableArrayList();
 
     DatabaseHandler databaseHandler = new DatabaseHandler();
 
@@ -124,12 +165,12 @@ public class MainController {
     void initialize() {
         updateWorkersTable();
         updateProductsTable();
+        updateUsersTable();
     }
 
 
     @FXML
     void addWorker(ActionEvent event) {
-
         String surname = wSurnameField.getText();
         String name = wNameField.getText();
         String patronymic = wPatronymicField.getText();
@@ -158,6 +199,18 @@ public class MainController {
                 amountOnSat, amountOnSun);
 
         updateProductsTable();
+    }
+
+    @FXML
+    void addUser(ActionEvent event) {
+        String userID = userIdField.getText();
+        String login = userLoginField.getText();
+        String password = userPasswordField.getText();
+        String accessKey = userAccessKeyField.getText();
+
+        databaseHandler.addUser(userID, login, password, accessKey);
+
+        updateUsersTable();
     }
 
     @FXML
@@ -208,6 +261,26 @@ public class MainController {
     }
 
     @FXML
+    void updateUser(ActionEvent event) {
+        Users user = new Users();
+        user = usersTable.getSelectionModel().getSelectedItem();
+        try {
+            if (user != null) {
+                String id = user.getUserID();
+
+                String login = (user.getLogin() == null) ? (login = user.getLogin()) : (userLoginField.getText());
+                String password = (user.getPassword() == null ) ? (password = user.getPassword()) : (userPasswordField.getText());
+                String accessKey = (user.getAccessKey() == null) ? (accessKey = user.getAccessKey()) : (userAccessKeyField.getText());
+
+                databaseHandler.updateUser(id, login, password, accessKey);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        updateUsersTable();
+    }
+
+    @FXML
     void deleteWorker(ActionEvent event) {
         Workers worker = new Workers();
         worker = workersTable.getSelectionModel().getSelectedItem();
@@ -235,6 +308,21 @@ public class MainController {
             e.printStackTrace();
         }
         updateProductsTable();
+    }
+
+    @FXML
+    void deleteUser(ActionEvent event) {
+        Users users = new Users();
+        users = usersTable.getSelectionModel().getSelectedItem();
+        try {
+            if (users != null) {
+                String id = users.getUserID();
+                databaseHandler.deleteUser(id);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        updateUsersTable();
     }
 
     @FXML
@@ -280,7 +368,25 @@ public class MainController {
 
     }
 
+    @FXML
+    void findUserID(ActionEvent event) {
+        String search = userSearchField.getText();
 
+        if (search.equals("")) {
+            updateUsersTable();
+        } else {
+            userIdTab.setCellValueFactory(new PropertyValueFactory<>("userID"));
+            userLoginTab.setCellValueFactory(new PropertyValueFactory<>("login"));
+            userPasswordTab.setCellValueFactory(new PropertyValueFactory<>("password"));
+            userAccessKeyTab.setCellValueFactory(new PropertyValueFactory<>("accessKey"));
+
+            usersDB = databaseHandler.findUser(search);
+            usersTable.setItems(usersDB);
+        }
+
+    }
+
+    //Методы обновления таблиц
 
     public void updateWorkersTable() {
         wIDTab.setCellValueFactory(new PropertyValueFactory<>("worker_ID"));
@@ -308,4 +414,15 @@ public class MainController {
         productsDB = databaseHandler.getProducts();
         productsTable.setItems(productsDB);
     }
+
+    public void updateUsersTable() {
+        userIdTab.setCellValueFactory(new PropertyValueFactory<>("userID"));
+        userLoginTab.setCellValueFactory(new PropertyValueFactory<>("login"));
+        userPasswordTab.setCellValueFactory(new PropertyValueFactory<>("password"));
+        userAccessKeyTab.setCellValueFactory(new PropertyValueFactory<>("accessKey"));
+
+        usersDB = databaseHandler.getUsers();
+        usersTable.setItems(usersDB);
+    }
+
 }

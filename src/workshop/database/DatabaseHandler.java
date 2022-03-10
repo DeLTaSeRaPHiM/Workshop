@@ -24,6 +24,22 @@ public class DatabaseHandler extends Configs {
         return dbConnection;
     }
 
+    public ResultSet checkUser(Users user) {
+        ResultSet resSet = null;
+        try {
+            PreparedStatement prSt = getDbConnection().prepareStatement(
+                    "SELECT * FROM users WHERE " + USERS_LOGIN + " =? AND "+ USERS_PASSWORD + " =?;");
+            prSt.setString(1, user.getLogin());
+            prSt.setString(2, user.getPassword());
+
+            resSet = prSt.executeQuery();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return resSet;
+    }
+
     public ObservableList<Workers> getWorkers() {
         try {
             PreparedStatement prSt = getDbConnection().prepareStatement("SELECT * FROM " + WORKERS_TABLE + ";");
@@ -78,6 +94,28 @@ public class DatabaseHandler extends Configs {
         return null;
     }
 
+    public ObservableList<Users> getUsers() {
+        try {
+            PreparedStatement prSt = getDbConnection().prepareStatement("SELECT * FROM " + USERS_TABLE + ";");
+
+            ResultSet result = prSt.executeQuery();
+            ObservableList<Users> list = FXCollections.observableArrayList();
+            while (result.next()) { //Получение данных из столбцов базы данных
+                Users users = new Users();
+
+                users.setUserID(result.getString(USERS_ID));
+                users.setLogin(result.getString(USERS_LOGIN));
+                users.setPassword(result.getString(USERS_PASSWORD));
+                users.setAccessKey(result.getString(USERS_ACCESS_KEY));
+                list.add(users);
+            }
+            return list;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void addWorker(String surname, String name, String patronymic, String workshopName) {
         String insert = "INSERT INTO " + WORKERS_TABLE + "(" +
                 WORKER_SURNAME + ", " + WORKER_NAME + "," + WORKER_PATRONYMIC + "," +
@@ -116,6 +154,25 @@ public class DatabaseHandler extends Configs {
             prSt.setString(7, amountOnFri);
             prSt.setString(8, amountOnSat);
             prSt.setString(9, amountOnSun);
+
+            prSt.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addUser(String userID, String login, String password, String accessKey) {
+        String insert = "INSERT INTO " + USERS_TABLE + "(" +
+                USERS_ID + ", " + USERS_LOGIN + "," + USERS_PASSWORD + "," +
+                USERS_ACCESS_KEY + ") VALUES(?, ?, ?, ?)";
+
+        try {
+            PreparedStatement prSt = getDbConnection().prepareStatement(insert);
+            prSt.setString(1, userID);
+            prSt.setString(2, login);
+            prSt.setString(3, password);
+            prSt.setString(4, accessKey);
+            System.out.println(prSt);
 
             prSt.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
@@ -171,6 +228,23 @@ public class DatabaseHandler extends Configs {
         }
     }
 
+    public void updateUser(String userID, String login, String password, String accessKey) {
+        String update = "UPDATE " + USERS_TABLE + " SET " + USERS_LOGIN +"= ?," +
+                USERS_PASSWORD + "= ?," + USERS_ACCESS_KEY + "= ? WHERE " + USERS_ID + "= ?";
+
+        try {
+            PreparedStatement prSt = getDbConnection().prepareStatement(update);
+            prSt.setString(1, login);
+            prSt.setString(2, password);
+            prSt.setString(3, accessKey);
+            prSt.setString(4, userID);
+
+            prSt.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void deleteWorker(String id) {
         String delete = "DELETE FROM " + WORKERS_TABLE + " WHERE " + WORKER_ID + "=?;";
         int ID = Integer.parseInt(id);
@@ -187,6 +261,20 @@ public class DatabaseHandler extends Configs {
 
     public void deleteProduct(String id) {
         String delete = "DELETE FROM " + PRODUCTS_TABLE + " WHERE " + PRODUCT_ID + "=?;";
+        int ID = Integer.parseInt(id);
+
+        try {
+            PreparedStatement prSt = getDbConnection().prepareStatement(delete);
+            prSt.setInt(1, ID);
+
+            prSt.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteUser(String id) {
+        String delete = "DELETE FROM " + USERS_TABLE + " WHERE " + USERS_ID + "=?;";
         int ID = Integer.parseInt(id);
 
         try {
@@ -247,6 +335,29 @@ public class DatabaseHandler extends Configs {
                 products.setAmountOnSunday(result.getString(P_AMOUNT_ON_SUN));
 
                 list.add(products);
+            }
+            return list;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ObservableList<Users> findUser(String id) {
+        try {
+            PreparedStatement prSt = getDbConnection().prepareStatement("SELECT * FROM " + USERS_TABLE + " WHERE " + USERS_ID + "=?");
+            prSt.setInt(1, (Integer.parseInt(id)));
+
+            ResultSet result = prSt.executeQuery();
+            ObservableList<Users> list = FXCollections.observableArrayList();
+            while (result.next()) { //Получение данных из столбцов базы данных
+                Users users = new Users();
+
+                users.setUserID(result.getString(USERS_ID));
+                users.setLogin(result.getString(USERS_LOGIN));
+                users.setPassword(result.getString(USERS_PASSWORD));
+                users.setAccessKey(result.getString(USERS_ACCESS_KEY));
+                list.add(users);
             }
             return list;
         } catch (SQLException | ClassNotFoundException e) {

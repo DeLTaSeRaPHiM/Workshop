@@ -10,9 +10,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("screens/mainWindow.fxml"));
-        primaryStage.setTitle("Workshop.jar");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        Parent root = FXMLLoader.load(getClass().getResource("screens/authWindow.fxml"));
+        primaryStage.setTitle("Workshop - Авторизация");
+        primaryStage.setScene(new Scene(root, 590, 440));
         primaryStage.show();
     }
 
